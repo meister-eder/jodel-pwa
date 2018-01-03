@@ -1,22 +1,22 @@
 <template>
-  <div class="jodel">
+  <div class="jodel" :class="jodel.color">
     <div class="jodel--wrapper_left">
       <div class="jodel--info">
-        <span>{{ mockJodel.location }}</span>
+        <span>{{ jodel.location }}</span>
         <span> ∙ Main Feed ∙ </span>
-        <span>{{ mockJodel.timeAgo }}</span>
+        <span>{{ jodel.timeAgo }}</span>
       </div>
       <div class="jodel--body">
-        <p>{{ mockJodel.text }}</p>
+        <p>{{ jodel.text }}</p>
       </div>
     </div>
     <div class="jodel--vote">
       <span>&#x25B2;</span>
-      <span>{{ mockJodel.score }}</span>
+      <span>{{ jodel.score }}</span>
       <span>&#x25BC;</span>
     </div>
     <div class="jodel--footer">
-      <span v-if="mockJodel.comments.length > 0">&#x2709; {{ mockJodel.comments.length }}</span>
+      <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
       <span>...</span>
       <span></span>
     </div>
@@ -26,26 +26,7 @@
 <script>
 export default {
   name: 'jodel',
-  data () {
-    return {
-      mockJodel: {
-        text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-        score: 123,
-        comments: [
-          {
-            text: 'nicenstein',
-            score: 10
-          },
-          {
-            text: 'hast du kik?',
-            score: -2
-          }
-        ],
-        timeAgo: '5min',
-        location: 'sehr nah'
-      }
-    }
-  }
+  props: ['jodel']
 }
 </script>
 
@@ -54,7 +35,7 @@ export default {
   @import '../assets/sass/_variables.sass'
 
   div.jodel
-    background-color: $red
+    // background-color: $red
     color: $font-primary
     border-bottom: 3px solid white
     padding: 10px
@@ -104,4 +85,5 @@ export default {
         font-size: 18px
         font-weight: 700
         opacity: 1
+
 </style>
