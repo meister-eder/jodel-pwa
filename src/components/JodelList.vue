@@ -8,19 +8,20 @@
       </span>
     </header>
     <main>
-      <jodel v-for="jodel in jodels" :jodel="jodel"></jodel>
+      <router-link to="/Detail"> <jodel v-for="jodel in jodels" :jodel="jodel"></jodel></router-link>
       <!-- <router-view></router-view> -->
     </main>
 
-  <div class="btn--new-jodel">
+ <router-link to="/New"> <div class="btn--new-jodel"></div></router-link>
 
-  </div>
+
 </div>
 
 </template>
 
 <script>
 import Jodel  from './Jodel.vue'
+
 
 export default {
   name: 'app',
@@ -121,14 +122,15 @@ export default {
     Jodel
   },
   methods: {
-
-    //TODO: implement onclick for create jodel button
+    
 
     randomColor: function () {
       const colors = ['orange', 'yellow', 'red', 'blue', 'bluegrey', 'green'];
 
       return colors[Math.floor(Math.random()*colors.length)];
     }
+
+
   }
 }
 </script>

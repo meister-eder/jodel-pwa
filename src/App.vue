@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <jodel-list></jodel-list>
+    <router-view></router-view>
+  
+    
   </div>
 </template>
 
