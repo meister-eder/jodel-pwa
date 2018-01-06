@@ -1,5 +1,5 @@
 <template>
-  <div class="jodel" :class="jodel.color">
+  <div class="jodel">
  <!-- TODO: display selcted jodel !-->
   </div>
 </template>
