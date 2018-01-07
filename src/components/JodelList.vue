@@ -9,7 +9,7 @@
     </header>
     <main>
       <router-link to="/Detail"> <jodel v-for="jodel in jodels" :jodel="jodel"></jodel></router-link>
-      <!-- <router-view></router-view> -->
+    
     </main>
 
  <router-link to="/New"> <div class="btn--new-jodel"></div></router-link>
@@ -22,107 +22,36 @@
 <script>
 import Jodel  from './Jodel.vue'
 
+//declare variables from http response
+var jodelText;
 
 export default {
   name: 'app',
   data() {
     return {
-      location: 'Leipzig',
-      karma: 1337,
-      jodels: [
-        {
-          text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-          score: 123,
-          comments: [
-            {
-              text: 'nicenstein',
-              score: 10
-            },
-            {
-              text: 'hast du kik?',
-              score: -2
-            }
-          ],
-          timeAgo: '5min',
-          location: 'sehr nah',
-          color: this.randomColor()
-        },
-        {
-          text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-          score: 123,
-          comments: [
-            {
-              text: 'nicenstein',
-              score: 10
-            },
-            {
-              text: 'hast du kik?',
-              score: -2
-            }
-          ],
-          timeAgo: '5min',
-          location: 'sehr nah',
-          color: this.randomColor()
-        },
-        {
-          text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-          score: 123,
-          comments: [
-            {
-              text: 'nicenstein',
-              score: 10
-            },
-            {
-              text: 'hast du kik?',
-              score: -2
-            }
-          ],
-          timeAgo: '5min',
-          location: 'sehr nah',
-          color: this.randomColor()
-        },
-        {
-          text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-          score: 123,
-          comments: [
-            {
-              text: 'nicenstein',
-              score: 10
-            },
-            {
-              text: 'hast du kik?',
-              score: -2
-            }
-          ],
-          timeAgo: '5min',
-          location: 'sehr nah',
-          color: this.randomColor()
-        },
-        {
-          text: 'lolololol den lörres reinhämmern und noch ein bisschen platzhalter text, um zu schauen, wie sich das layout verändert, wenn man über mehrere zeilen schreibt!',
-          score: 123,
-          comments: [
-            {
-              text: 'nicenstein',
-              score: 10
-            },
-            {
-              text: 'hast du kik?',
-              score: -2
-            }
-          ],
-          timeAgo: '5min',
-          location: 'sehr nah',
-          color: this.randomColor()
-        }
-      ]
+     jodels: []
     }
   },
   components: {
     Jodel
   },
+  mounted:function(){
+    this.getJodels(); 
+  },
   methods: {
     
+    getJodels: function(){
+      this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
+
+    // get body data
+    //fill jodel with data here
+    this.jodels = response.body;
+    
+    }, response => {
+    // error callback
+          console.log("http error")
+       });
+    },
 
     randomColor: function () {
       const colors = ['orange', 'yellow', 'red', 'blue', 'bluegrey', 'green'];
@@ -131,7 +60,7 @@ export default {
     }
 
 
-  }
+  },
 }
 </script>
 
