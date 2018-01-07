@@ -13,16 +13,16 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: JodelList
-    }, 
+    },
     {
-      name: 'newjodel', 
-      component: NewJodel, 
-      path:'/New'
-    }, 
+      name: 'newjodel',
+      component: NewJodel,
+      path:'/new'
+    },
     {
-      name: 'jodeldetail', 
+      name: 'jodel',
       component: JodelDetail,
-      path: '/Detail'
+      path: '/jodel/:id'
     }
 
   ]

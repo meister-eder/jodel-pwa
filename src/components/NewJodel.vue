@@ -3,10 +3,10 @@
     <header class="new_jodel--header">
       <span @click="$router.go(-1)">&#x2B05;</span>
       <span></span>
-      <span>Senden</span>
+      <span @click="createJodel()">Senden</span>
     </header>
     <main :class="color">
-      <textarea name="newjodel" rows="8" cols="80" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
+      <textarea v-model="text" name="newjodel" rows="8" cols="80" maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
     </main>
 
   </div>
@@ -17,7 +17,8 @@ export default {
   name: 'newjodel',
   data() {
     return {
-      color: this.randomColor()
+      color: this.randomColor(),
+      text: ""
     }
   },
   methods: {
@@ -26,6 +27,18 @@ export default {
       const colors = ['orange', 'yellow', 'red', 'blue', 'bluegrey', 'green'];
 
       return colors[Math.floor(Math.random()*colors.length)];
+    },
+
+    createJodel: function () {
+      this.$http.post('https://fehler40.uber.space/vuedel/jodel/create', {text: this.text, color: this.color}).then(response => {
+
+      console.log(response);
+      let id = response.body.id;
+      this.$router.push({ name: 'jodel', params: { id: id }})
+      }, response => {
+      // error callback
+            console.log("http error")
+         });
     }
 
 
@@ -76,6 +89,7 @@ main
     padding: 20px
     font-size: 18px
     color: $font-primary
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif
     resize: none
     outline: none
   textarea::placeholder

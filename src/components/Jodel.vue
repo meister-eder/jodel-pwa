@@ -1,22 +1,26 @@
 <template>
   <div class="jodel" :class="jodel.color">
-    <div class="jodel--wrapper_left">
-      <div class="jodel--info">
-        <span>{{ jodel.location }}</span>
-        <span> ∙ Main Feed ∙ </span>
-        <span>{{ jodel.timeAgo }}</span>
+    <router-link :to="{ name: 'jodel', params: {id: jodel.id} }">
+      <div class="jodel--wrapper_left">
+        <div class="jodel--info">
+          <span>{{ jodel.location }}</span>
+          <span> ∙ Main Feed ∙ </span>
+          <span>{{ jodel.timeAgo }}</span>
+        </div>
+        <div class="jodel--body">
+          <p>{{ jodel.text }}</p>
+        </div>
       </div>
-      <div class="jodel--body">
-        <p>{{ jodel.text }}</p>
-      </div>
-    </div>
+    </router-link>
     <div class="jodel--vote">
       <span>&#x25B2;</span>
       <span>{{ jodel.score }}</span>
       <span>&#x25BC;</span>
     </div>
     <div class="jodel--footer">
-      <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
+      <span>
+        <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
+      </span>
       <span>...</span>
       <span></span>
     </div>
@@ -33,6 +37,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
   @import '../assets/sass/_variables.sass'
+
+  a
+    text-decoration: none
+    color: $font-primary
 
   div.jodel
     // background-color: $red

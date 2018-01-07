@@ -8,11 +8,11 @@
       </span>
     </header>
     <main>
-      <router-link to="/Detail"> <jodel v-for="jodel in jodels" :jodel="jodel"></jodel></router-link>
-    
+      <jodel v-for="jodel in recentJodels" :jodel="jodel"></jodel>
+
     </main>
 
- <router-link to="/New"> <div class="btn--new-jodel"></div></router-link>
+ <router-link to="/new"> <div class="btn--new-jodel"></div></router-link>
 
 
 </div>
@@ -21,7 +21,7 @@
 
 <script>
 import Jodel  from './Jodel.vue'
-
+import lodash from 'lodash'
 
 export default {
   name: 'app',
@@ -36,31 +36,43 @@ export default {
     Jodel
   },
   mounted:function(){
-    this.getJodels(); 
+    this.getJodels();
   },
   methods: {
-    
+
     getJodels: function(){
       this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
 
     // get body data
     //fill jodel with data here
     this.jodels = response.body;
-    
+    this.jodels = this.countComments(this.jodels);
     }, response => {
     // error callback
           console.log("http error")
        });
     },
-
-    randomColor: function () {
-      const colors = ['orange', 'yellow', 'red', 'blue', 'bluegrey', 'green'];
-
-      return colors[Math.floor(Math.random()*colors.length)];
+    countComments: function (jodels) {
+      let arr = jodels.map(function (jodel) {
+        let numberOfComments = jodel.comments.length;
+        jodel.numberOfComments = numberOfComments;
+        // console.log(jodel);
+        return jodel;
+      })
+      return arr;
     }
-
-
   },
+  computed: {
+    recentJodels: function () {
+      return this.jodels.reverse();
+    },
+    topJodels: function () {
+      return _.orderBy(this.jodels, 'score');
+    },
+    mostCommentedJodels: function () {
+      return _.orderBy(this.jodels, 'numberOfComments');
+    }
+  }
 }
 </script>
 
@@ -139,5 +151,7 @@ div.btn--new-jodel
     height: 30px
     border-radius: 15px
     background-color: #fff
+  &:hover
+    background-color: #2196F3
 
 </style>
