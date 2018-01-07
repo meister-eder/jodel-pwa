@@ -22,14 +22,14 @@
 <script>
 import Jodel  from './Jodel.vue'
 
-//declare variables from http response
-var jodelText;
 
 export default {
   name: 'app',
   data() {
     return {
-     jodels: []
+     jodels: [],
+     karma: '100',
+     location: 'Leipzig'
     }
   },
   components: {
