@@ -8,10 +8,13 @@
       </span>
     </header>
     <main>
-      <jodel v-for="jodel in recentJodels" :jodel="jodel"></jodel>
-
+      <jodel v-for="jodel in jodels" :jodel="jodel"></jodel>
     </main>
-
+    <footer>
+      <span @click="recentJodels()" :class="[activeTab === 'recent' ? 'footer--active' : '']">recent</span>
+      <span @click="mostCommentedJodels()"  class="footer--center" :class="[activeTab === 'comments' ? 'footer--active' : '']">comments</span>
+      <span @click="topJodels()"  :class="[activeTab === 'top' ? 'footer--active' : '']">top</span>
+    </footer>
  <router-link to="/new"> <div class="btn--new-jodel"></div></router-link>
 
 
@@ -29,7 +32,8 @@ export default {
     return {
      jodels: [],
      karma: '100',
-     location: 'Leipzig'
+     location: 'Leipzig',
+     activeTab: 'recent'
     }
   },
   components: {
@@ -60,18 +64,22 @@ export default {
         return jodel;
       })
       return arr;
-    }
-  },
-  computed: {
+    },
     recentJodels: function () {
-      return this.jodels.reverse();
+      this.jodels = this.jodels.reverse();
+      this.activeTab = 'recent';
     },
     topJodels: function () {
-      return _.orderBy(this.jodels, 'score');
+      this.jodels = _.orderBy(this.jodels, 'score');
+      this.activeTab = 'top';
     },
     mostCommentedJodels: function () {
-      return _.orderBy(this.jodels, 'numberOfComments');
-    }
+      this.jodels = _.orderBy(this.jodels, 'numberOfComments');
+      this.activeTab = 'comments';
+}
+  },
+  computed: {
+
   }
 }
 </script>
@@ -122,11 +130,33 @@ header
 main
   padding-top: 56px
 
+footer
+  display: flex
+  position: fixed
+  bottom: 0
+  width: 100vw
+  height: 56px
+  background-color: #fff
+  box-shadow: 3px 0px 5px 0px rgba(51,51,51,.50)
+  span
+    display: inline-block
+    flex: 1 1 auto
+    justify-content: space-around
+    width: 33%
+    text-align: center
+    margin: 5px
+    line-height: 40px
+  .footer--center
+    border-left: 1px solid $font-secondary
+    border-right: 1px solid $font-secondary
+  .footer--active
+    color: $accent
+
 div.btn--new-jodel
   height: 80px
   width: 80px
   position: fixed
-  bottom: 50px
+  bottom: 70px
   left: calc(50% - 43px)
   border: 6px solid #fff
   border-radius: 50%
