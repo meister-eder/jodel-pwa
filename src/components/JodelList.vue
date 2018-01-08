@@ -45,17 +45,20 @@ export default {
   methods: {
 
     getJodels: function(){
-      this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
+    this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
 
     // get body data
     //fill jodel with data here
     this.jodels = response.body;
+    this.recentJodels();
     this.jodels = this.countComments(this.jodels);
     }, response => {
     // error callback
           console.log("http error")
        });
     },
+
+
     countComments: function (jodels) {
       let arr = jodels.map(function (jodel) {
         let numberOfComments = jodel.comments.length;
@@ -66,15 +69,15 @@ export default {
       return arr;
     },
     recentJodels: function () {
-      this.jodels = this.jodels.reverse();
+      this.jodels = _.orderBy(this.jodels, 'createdAt', 'desc');
       this.activeTab = 'recent';
     },
     topJodels: function () {
-      this.jodels = _.orderBy(this.jodels, 'score');
+      this.jodels = _.orderBy(this.jodels, 'score', 'desc');
       this.activeTab = 'top';
     },
     mostCommentedJodels: function () {
-      this.jodels = _.orderBy(this.jodels, 'numberOfComments');
+      this.jodels = _.orderBy(this.jodels, 'numberOfComments', 'desc');
       this.activeTab = 'comments';
 }
   },
