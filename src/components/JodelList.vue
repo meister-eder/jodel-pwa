@@ -131,7 +131,7 @@ header
       top: -15px
 
 main
-  padding-top: 56px
+  padding: 56px 0 56px 0
 
 footer
   display: flex
