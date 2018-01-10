@@ -5,6 +5,8 @@ import JodelList from '../components/JodelList'
 import NewJodel from '../components/NewJodel.vue'
 import JodelDetail from '../components/JodelDetail.vue'
 
+
+
 Vue.use(Router)
 
 export default new Router({

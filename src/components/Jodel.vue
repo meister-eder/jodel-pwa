@@ -13,9 +13,9 @@
       </div>
     </router-link>
     <div class="jodel--vote">
-      <span>&#x25B2;</span>
+      <span @click="voteUp">&#x25B2;</span>
       <span>{{ jodel.score }}</span>
-      <span>&#x25BC;</span>
+      <span @click="voteDown">&#x25BC;</span>
     </div>
     <div class="jodel--footer">
       <span>
@@ -28,10 +28,35 @@
 </template>
 
 <script>
+
 export default {
   name: 'jodel',
-  props: ['jodel']
-}
+  props: ['jodel'], 
+  methods:{
+    voteUp:function(){
+      
+     // https://fehler40.uber.space/vuedel/vote/jodel?id=1&vote=1
+     
+      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote=1').then(response => {
+      console.log("vote it up");
+      this.jodel.score = this.jodel.score + 1;
+      }, response => {
+      // error callback
+            console.log("http error")
+         });
+      },
+    voteDown: function(){
+      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+this.jodel.id + '&vote=-1').then(response => {
+      console.log("vote it down");
+      
+      this.jodel.score = this.jodel.score - 1;
+      }, response => {
+      // error callback
+            console.log("http error")
+         });
+      }
+  
+  }}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
