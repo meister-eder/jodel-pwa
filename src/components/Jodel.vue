@@ -13,13 +13,13 @@
       </div>
     </router-link>
     <div class="jodel--vote">
-      <span>&#x25B2;</span>
+      <span><i class="material-icons">keyboard_arrow_up</i></span>
       <span>{{ jodel.score }}</span>
-      <span>&#x25BC;</span>
+      <span><i class="material-icons">keyboard_arrow_down</i></span>
     </div>
     <div class="jodel--footer">
       <span>
-        <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
+        <span v-if="jodel.comments.length > 0"><i class="material-icons">comment</i> {{ jodel.comments.length }}</span>
       </span>
       <span @click="deleteJodel(jodel.id)">...</span>
       <span></span>
@@ -88,6 +88,7 @@ export default {
     padding: 10px
     position: relative
 
+
     div.jodel--wrapper_left
       display: inline-block
       width: 85vw
@@ -104,7 +105,7 @@ export default {
         p
           display: inline-block
           font-size: 16px
-
+          word-break: break-word
     div.jodel--vote
       float: right
       display: inline-block
@@ -127,6 +128,8 @@ export default {
         flex: 1 1 auto
         justify-content: space-between
         opacity: .5
+        i
+          font-size: 16px
       span:nth-child(2)
         text-align: center
         font-size: 18px

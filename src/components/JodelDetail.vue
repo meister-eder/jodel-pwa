@@ -1,7 +1,7 @@
 <template>
   <div class="jodel__detail" :class="jodel.color">
     <header class="new_jodel--header">
-      <span @click="$router.go(-1)">&#x2B05;</span>
+      <span @click="$router.push('/')">&#x2B05;</span>
       <span></span>
       <span>Share</span>
     </header>
@@ -13,7 +13,7 @@
     </main>
     <footer>
       <div class="newcomment">
-        <input v-model="newComment" type="text" name="" placeholder="#GoodVibesOnly">
+        <input v-model="newComment" type="text" name="" placeholder="#GoodVibesOnly" maxlength="240">
         <span class="comment__send" v-if="newComment !== ''" @click="submitComment()">send</span>
         <span class="comment__pic" v-if="newComment ===''">pic</span>
       </div>
@@ -68,7 +68,7 @@ export default {
 @import '../assets/sass/_variables.sass'
 
 .jodel__detail
-  height: 100vh
+  min-height: 95vh
 
 
 header
@@ -100,6 +100,14 @@ header
 main
   // height: 100%
   padding-top: 56px
+
+  ul
+    li
+      display: inline-block
+      word-break: break-word
+      list-style: none
+      color: $font-primary
+      margin-bottom: 30px
 
 footer
   display: flex

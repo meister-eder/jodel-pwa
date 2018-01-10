@@ -11,9 +11,9 @@
       <jodel v-for="jodel in jodels" :jodel="jodel"></jodel>
     </main>
     <footer>
-      <span @click="recentJodels()" :class="[activeTab === 'recent' ? 'footer--active' : '']">recent</span>
-      <span @click="mostCommentedJodels()"  class="footer--center" :class="[activeTab === 'comments' ? 'footer--active' : '']">comments</span>
-      <span @click="topJodels()"  :class="[activeTab === 'top' ? 'footer--active' : '']">top</span>
+      <span @click="recentJodels()" :class="[activeTab === 'recent' ? 'footer--active' : '']"><i class="material-icons">access_time</i></span>
+      <span @click="mostCommentedJodels()"  class="footer--center" :class="[activeTab === 'comments' ? 'footer--active' : '']"><i class="material-icons">comment</i></span>
+      <span @click="topJodels()"  :class="[activeTab === 'top' ? 'footer--active' : '']"><i class="material-icons">keyboard_arrow_up</i></span>
     </footer>
  <router-link to="/new"> <div class="btn--new-jodel"></div></router-link>
 
@@ -71,14 +71,18 @@ export default {
     recentJodels: function () {
       this.jodels = _.orderBy(this.jodels, 'createdAt', 'desc');
       this.activeTab = 'recent';
+      //http://iamdustan.com/smoothscroll/
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     },
     topJodels: function () {
       this.jodels = _.orderBy(this.jodels, 'score', 'desc');
       this.activeTab = 'top';
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     },
     mostCommentedJodels: function () {
       this.jodels = _.orderBy(this.jodels, 'numberOfComments', 'desc');
       this.activeTab = 'comments';
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
 }
   },
   computed: {
@@ -87,7 +91,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style scoped lang="sass">
 
 @import '../assets/sass/_variables.sass'
 
@@ -148,12 +152,16 @@ footer
     width: 33%
     text-align: center
     margin: 5px
-    line-height: 40px
+    i
+      font-size: 30px
+      color: $font-secondary
+      line-height: 50px
   .footer--center
     border-left: 1px solid $font-secondary
     border-right: 1px solid $font-secondary
   .footer--active
-    color: $accent
+     i
+      color: $accent
 
 div.btn--new-jodel
   height: 80px
