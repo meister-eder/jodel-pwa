@@ -13,9 +13,9 @@
       </div>
     </router-link>
     <div class="jodel--vote">
-      <span @click="voteUp">&#x25B2;</span>
+      <span :class="{ disabled: votedOn }" @click="vote(1)"><i class="material-icons">keyboard_arrow_up</i></span>
       <span>{{ jodel.score }}</span>
-      <span @click="voteDown">&#x25BC;</span>
+      <span :class="{ disabled: votedOn }" @click="vote(-1)"><i class="material-icons">keyboard_arrow_down</i></span>
     </div>
     <div class="jodel--footer">
       <span>
@@ -31,34 +31,23 @@
 
 export default {
   name: 'jodel',
-  props: ['jodel'], 
+  props: ['jodel'],
+  data() {
+    return {
+      votedOn: false
+    }
+  },
   methods:{
-    voteUp:function(){
-      
-     // https://fehler40.uber.space/vuedel/vote/jodel?id=1&vote=1
-     
-      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote=1').then(response => {
-      console.log("vote it up");
-      this.jodel.score = this.jodel.score + 1;
-      
-      }, response => {
-      // error callback
-            console.log("http error")
-         });
-      },
-    voteDown: function(){
-      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+this.jodel.id + '&vote=-1').then(response => {
-      console.log("vote it down");
-      
-      this.jodel.score = this.jodel.score - 1;
-      
-      }, response => {
-      // error callback
-            console.log("http error")
-         });
+    vote:function(vote){
+        if (!this.votedOn) {
+          this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote='+vote).then(response => {
+            this.jodel.score += vote;
+            this.votedOn = true;
+          });
       }
-  
-  }}
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -92,6 +81,7 @@ export default {
         p
           display: inline-block
           font-size: 16px
+          word-break: break-word
 
     div.jodel--vote
       float: right
@@ -108,6 +98,10 @@ export default {
         text-align: center
         line-height: 1.5
         font-weight: 700
+      .disabled
+        color: transparentize($font-primary, .7)
+      span:nth-child(2)
+        color: $font-primary
 
     div.jodel--footer
       display: flex
