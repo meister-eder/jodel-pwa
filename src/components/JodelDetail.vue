@@ -1,9 +1,9 @@
 <template>
   <div class="jodel__detail" :class="jodel.color">
     <header class="new_jodel--header">
-      <span @click="$router.push('/')">&#x2B05;</span>
+      <span @click="$router.push('/')"><i class="material-icons">arrow_back</i></span>
       <span></span>
-      <span>Share</span>
+      <span><i class="material-icons">share</i></span>
     </header>
     <main>
       <jodel :jodel="jodel"></jodel>
@@ -14,8 +14,8 @@
     <footer>
       <div class="newcomment">
         <input v-model="newComment" type="text" name="" placeholder="#GoodVibesOnly" maxlength="240">
-        <span class="comment__send" v-if="newComment !== ''" @click="submitComment()">send</span>
-        <span class="comment__pic" v-if="newComment ===''">pic</span>
+        <span class="comment__send" v-if="newComment !== ''" @click="submitComment()"><i class="material-icons">send</i></span>
+        <span class="comment__pic" v-if="newComment ===''"><i class="material-icons">photo_camera</i></span>
       </div>
     </footer>
   </div>
@@ -128,4 +128,5 @@ footer
       border-bottom: 2px solid grey
     span
       float: right
+      color: $font-secondary
 </style>

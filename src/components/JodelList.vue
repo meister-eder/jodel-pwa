@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <span> foo </span>
+      <span><i class="material-icons">wifi_tethering</i></span>
       <span class="city-title">{{ location }}</span>
       <span class="karma-counter">
         +{{ karma }}<span>MEIN KARMA</span>
