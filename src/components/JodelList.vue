@@ -8,10 +8,13 @@
       </span>
     </header>
     <main>
-      <jodel v-for="jodel in recentJodels" :jodel="jodel"></jodel>
-
+      <jodel v-for="jodel in jodels" :jodel="jodel"></jodel>
     </main>
-
+    <footer>
+      <span @click="recentJodels()" :class="[activeTab === 'recent' ? 'footer--active' : '']"><i class="material-icons">access_time</i></span>
+      <span @click="mostCommentedJodels()"  class="footer--center" :class="[activeTab === 'comments' ? 'footer--active' : '']"><i class="material-icons">comment</i></span>
+      <span @click="topJodels()"  :class="[activeTab === 'top' ? 'footer--active' : '']"><i class="material-icons">keyboard_arrow_up</i></span>
+    </footer>
  <router-link to="/new"> <div class="btn--new-jodel"></div></router-link>
 
 
@@ -29,7 +32,8 @@ export default {
     return {
      jodels: [],
      karma: '100',
-     location: 'Leipzig'
+     location: 'Leipzig',
+     activeTab: 'recent'
     }
   },
   components: {
@@ -41,17 +45,20 @@ export default {
   methods: {
 
     getJodels: function(){
-      this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
+    this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
 
     // get body data
     //fill jodel with data here
     this.jodels = response.body;
+    this.recentJodels();
     this.jodels = this.countComments(this.jodels);
     }, response => {
     // error callback
           console.log("http error")
        });
     },
+
+
     countComments: function (jodels) {
       let arr = jodels.map(function (jodel) {
         let numberOfComments = jodel.comments.length;
@@ -60,23 +67,31 @@ export default {
         return jodel;
       })
       return arr;
-    }
-  },
-  computed: {
+    },
     recentJodels: function () {
-      return this.jodels.reverse();
+      this.jodels = _.orderBy(this.jodels, 'createdAt', 'desc');
+      this.activeTab = 'recent';
+      //http://iamdustan.com/smoothscroll/
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     },
     topJodels: function () {
-      return _.orderBy(this.jodels, 'score');
+      this.jodels = _.orderBy(this.jodels, 'score', 'desc');
+      this.activeTab = 'top';
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     },
     mostCommentedJodels: function () {
-      return _.orderBy(this.jodels, 'numberOfComments');
-    }
+      this.jodels = _.orderBy(this.jodels, 'numberOfComments', 'desc');
+      this.activeTab = 'comments';
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+}
+  },
+  computed: {
+
   }
 }
 </script>
 
-<style lang="sass">
+<style scoped lang="sass">
 
 @import '../assets/sass/_variables.sass'
 
@@ -120,13 +135,39 @@ header
       top: -15px
 
 main
-  padding-top: 56px
+  padding: 56px 0 56px 0
+
+footer
+  display: flex
+  position: fixed
+  bottom: 0
+  width: 100vw
+  height: 56px
+  background-color: #fff
+  box-shadow: 3px 0px 5px 0px rgba(51,51,51,.50)
+  span
+    display: inline-block
+    flex: 1 1 auto
+    justify-content: space-around
+    width: 33%
+    text-align: center
+    margin: 5px
+    i
+      font-size: 30px
+      color: $font-secondary
+      line-height: 50px
+  .footer--center
+    border-left: 1px solid $font-secondary
+    border-right: 1px solid $font-secondary
+  .footer--active
+     i
+      color: $accent
 
 div.btn--new-jodel
   height: 80px
   width: 80px
   position: fixed
-  bottom: 50px
+  bottom: 70px
   left: calc(50% - 43px)
   border: 6px solid #fff
   border-radius: 50%

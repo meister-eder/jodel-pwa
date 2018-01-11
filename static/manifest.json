@@ -1,6 +1,6 @@
 {
-  "name": "jodel_pwa",
-  "short_name": "jodel_pwa",
+  "name": "Vuedel - Jodel as a Vue-PWA",
+  "short_name": "Vuedel",
   "icons": [
     {
       "src": "/static/img/icons/android-chrome-192x192.png",
@@ -15,6 +15,6 @@
   ],
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#EC8516",
+  "theme_color": "#EC8516"
 }
