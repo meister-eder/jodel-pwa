@@ -5,7 +5,7 @@
         <div class="jodel--info">
           <span>{{ jodel.location }}</span>
           <span> ∙ Main Feed ∙ </span>
-          <span>{{ timeAgo }}</span>
+          <span>{{ jodel.timeAgo }}</span>
         </div>
         <div class="jodel--body">
           <p>{{ jodel.text }}</p>
@@ -13,64 +13,52 @@
       </div>
     </router-link>
     <div class="jodel--vote">
-      <span><i class="material-icons">keyboard_arrow_up</i></span>
+      <span @click="voteUp">&#x25B2;</span>
       <span>{{ jodel.score }}</span>
-      <span><i class="material-icons">keyboard_arrow_down</i></span>
+      <span @click="voteDown">&#x25BC;</span>
     </div>
     <div class="jodel--footer">
       <span>
-        <span v-if="jodel.comments.length > 0"><i class="material-icons">comment</i> {{ jodel.comments.length }}</span>
+        <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
       </span>
-      <span @click="deleteJodel(jodel.id)">...</span>
+      <span>...</span>
       <span></span>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'jodel',
-  props: ['jodel'],
-  methods: {
-
-    deleteJodel: function (id) {
-      this.$http.get('https://fehler40.uber.space/vuedel/jodel/destroy?id='+id).then(response => {
-        console.log('jodel deleted');
-        //refreshes the page
-        this.$router.go();
+  props: ['jodel'], 
+  methods:{
+    voteUp:function(){
+      
+     // https://fehler40.uber.space/vuedel/vote/jodel?id=1&vote=1
+     
+      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote=1').then(response => {
+      console.log("vote it up");
+      this.jodel.score = this.jodel.score + 1;
+      
       }, response => {
       // error callback
             console.log("http error")
          });
-    }
-  },
-  computed: {
-    timeAgo: function () {
-      let created = new Date(this.jodel.createdAt);
-      let now = new Date();
-
-      let diff = Math.floor((now - created)/1000);
-
-      switch (true) {
-        case diff < 60:
-          console.log('case seconds');
-          return diff + 's'
-          break;
-        case diff >= 60 && diff < 60*60:
-          return Math.floor(diff/60) + 'min'
-          break;
-        case diff >= 60*60 && diff < 60*60*24:
-          return Math.floor(diff/(60*60)) + 'h'
-          break;
-        case diff >= 60*60*24:
-          return Math.floor(diff/(60*60*24)) + ' Tage'
-          break;
-        default:
-          return 'irgendwann'
+      },
+    voteDown: function(){
+      this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+this.jodel.id + '&vote=-1').then(response => {
+      console.log("vote it down");
+      
+      this.jodel.score = this.jodel.score - 1;
+      
+      }, response => {
+      // error callback
+            console.log("http error")
+         });
       }
-    }
-  }
-}
+  
+  }}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -88,7 +76,6 @@ export default {
     padding: 10px
     position: relative
 
-
     div.jodel--wrapper_left
       display: inline-block
       width: 85vw
@@ -105,7 +92,7 @@ export default {
         p
           display: inline-block
           font-size: 16px
-          word-break: break-word
+
     div.jodel--vote
       float: right
       display: inline-block
@@ -128,8 +115,6 @@ export default {
         flex: 1 1 auto
         justify-content: space-between
         opacity: .5
-        i
-          font-size: 16px
       span:nth-child(2)
         text-align: center
         font-size: 18px
