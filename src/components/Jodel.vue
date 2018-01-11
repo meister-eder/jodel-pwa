@@ -40,6 +40,7 @@ export default {
       this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote=1').then(response => {
       console.log("vote it up");
       this.jodel.score = this.jodel.score + 1;
+      
       }, response => {
       // error callback
             console.log("http error")
@@ -50,6 +51,9 @@ export default {
       console.log("vote it down");
       
       this.jodel.score = this.jodel.score - 1;
+      if( this.jodel.score <=0){
+         this.jodel.score = 0
+      }
       }, response => {
       // error callback
             console.log("http error")
