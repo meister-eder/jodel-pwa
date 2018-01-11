@@ -51,9 +51,7 @@ export default {
       console.log("vote it down");
       
       this.jodel.score = this.jodel.score - 1;
-      if( this.jodel.score <=0){
-         this.jodel.score = 0
-      }
+      
       }, response => {
       // error callback
             console.log("http error")
