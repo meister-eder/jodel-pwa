@@ -7,8 +7,15 @@
     </header>
     <main :class="color">
       <textarea v-model="text" name="newjodel" rows="8" cols="80" maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
+       
     </main>
-
+  <footer>
+    <div class="takephoto">
+      <router-link to="/camera">
+      <i class="material-icons">photo_camera</i>
+      </router-link>
+    </div>
+    </footer>
   </div>
 </template>
 
@@ -94,4 +101,17 @@ main
     outline: none
   textarea::placeholder
     opacity: .5
+
+footer
+  display: flex
+  position: fixed
+  bottom: 0
+  width: calc(100vw - 20px)
+  height: 30px
+  .takephoto    
+    position: relative
+    width: 100%
+    i
+      float: right
+ 
 </style>
