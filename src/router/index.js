@@ -4,8 +4,7 @@ import JodelList from '../components/JodelList'
 
 import NewJodel from '../components/NewJodel.vue'
 import JodelDetail from '../components/JodelDetail.vue'
-
-
+import CameraView from '../components/CameraView.vue'
 
 Vue.use(Router)
 
@@ -25,6 +24,11 @@ export default new Router({
       name: 'jodel',
       component: JodelDetail,
       path: '/jodel/:id'
+    },
+    {
+      path: '/camera',
+      name: 'camera',
+      component: CameraView
     }
 
   ]
