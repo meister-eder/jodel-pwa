@@ -3,7 +3,7 @@
     <div class="camera-modal">
         <video ref="video" class="camera-stream"/>
         <div class="camera-modal-container">
-            <span @click="capture" class="take-picture-button take-picture-button mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+            <span @click="capture" >
               <i class="material-icons">camera</i>
             </span>
         </div>
@@ -52,13 +52,15 @@ export default {
     width: 100%
     max-height: 100%
 
-  .camera-modal-container 
+  .camera-modal-container
     position: absolute
     bottom: 0
     width: 100%
-    align-items: center
+    text-align: center
     margin-bottom: 24px
+
     
-  .take-picture-button
-    display: flex
+  span
+    margin: 0 auto
+
 </style>
