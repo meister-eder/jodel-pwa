@@ -5,7 +5,7 @@
         <div class="jodel--info">
           <span>{{ jodel.location }}</span>
           <span> ∙ Main Feed ∙ </span>
-          <span>{{ jodel.timeAgo }}</span>
+          <span>{{ timeAgo }}</span>
         </div>
         <div class="jodel--body">
           <p>{{ jodel.text }}</p>
@@ -46,7 +46,33 @@ export default {
           });
       }
     }
-  }
+  },
+   computed: {
+     timeAgo: function () {
+       let created = new Date(this.jodel.createdAt);
+       let now = new Date();
+
+       let diff = Math.floor((now - created)/1000);
+
+       switch (true) {
+         case diff < 60:
+           console.log('case seconds');
+           return diff + 's'
+           break;
+         case diff >= 60 && diff < 60*60:
+           return Math.floor(diff/60) + 'min'
+           break;
+         case diff >= 60*60 && diff < 60*60*24:
+           return Math.floor(diff/(60*60)) + 'h'
+           break;
+         case diff >= 60*60*24:
+           return Math.floor(diff/(60*60*24)) + ' Tage'
+           break;
+         default:
+           return 'irgendwann'
+       }
+     }
+   }
 }
 </script>
 

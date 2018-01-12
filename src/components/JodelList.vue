@@ -8,7 +8,7 @@
       </span>
     </header>
     <main>
-      <jodel v-for="jodel in jodels" :jodel="jodel"></jodel>
+      <jodel v-for="jodel in jodels" :key="jodel.id" :jodel="jodel"></jodel>
     </main>
     <footer>
       <span @click="recentJodels()" :class="[activeTab === 'recent' ? 'footer--active' : '']"><i class="material-icons">access_time</i></span>
@@ -45,17 +45,25 @@ export default {
   methods: {
 
     getJodels: function(){
-    this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
+      if (navigator.onLine) {
+        console.log('online');
+        this.saveJodelstoCache()
+      } else {
+        console.log('offline');
+        this.jodels = JSON.parse(localStorage.getItem('jodels'))
+      }
+    },
 
-    // get body data
-    //fill jodel with data here
-    this.jodels = response.body;
-    this.recentJodels();
-    this.jodels = this.countComments(this.jodels);
-    }, response => {
-    // error callback
-          console.log("http error")
-       });
+    saveJodelstoCache: function () {
+      this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
+        this.jodels = response.body;
+        this.recentJodels();
+        this.jodels = this.countComments(this.jodels);
+        localStorage.setItem('jodels', JSON.stringify(this.jodels));
+      }, err => {
+        // error callback
+        console.log(err);
+     });
     },
 
 
