@@ -1,18 +1,18 @@
 <template>
   <div class="new_jodel">
     <header class="new_jodel--header">
-      <span @click="$router.go(-1)">&#x2B05;</span>
+      <span @click="$router.go(-1)"><i class="material-icons">arrow_back</i></span>
       <span></span>
       <span @click="createJodel()">Senden</span>
     </header>
     <main :class="color">
       <textarea v-model="text" name="newjodel" rows="8" cols="80" maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
-       
+
     </main>
   <footer>
     <div class="takephoto">
       <router-link to="/camera">
-      <i class="material-icons">photo_camera</i>
+        <i class="material-icons">photo_camera</i>
       </router-link>
     </div>
     </footer>
@@ -55,6 +55,9 @@ export default {
 
 <style scoped lang="sass">
 @import '../assets/sass/_variables.sass'
+
+a
+  text-decoration: none
 
 .new_jodel
   height: 100vh
@@ -100,7 +103,9 @@ main
     resize: none
     outline: none
   textarea::placeholder
+    color: $font-primary
     opacity: .5
+
 
 footer
   display: flex
@@ -108,11 +113,16 @@ footer
   bottom: 0
   width: calc(100vw - 20px)
   height: 30px
-  .takephoto    
+  .takephoto
     position: relative
     width: 100%
+    bottom: 40px
     i
       float: right
+      color: #fff
+      background-color: #333
+      border-radius: 50%
+      padding: 10px
 
 
 </style>

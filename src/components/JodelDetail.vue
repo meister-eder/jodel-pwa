@@ -42,13 +42,19 @@ export default {
   methods: {
 
     getJodel: function(){
-      this.$http.get('https://fehler40.uber.space/vuedel/jodel/'+this.id).then(response => {
-      this.jodel = response.body;
-      console.log(this.jodel);
-      }, response => {
-      // error callback
-            console.log("http error")
-         });
+      if (navigator.onLine) {
+        this.$http.get('https://fehler40.uber.space/vuedel/jodel/'+this.id).then(response => {
+          this.jodel = response.body;
+          console.log(this.jodel);
+        }, response => {
+          // error callback
+          console.log("http error")
+        });
+      } else {
+        let jodels = JSON.parse(localStorage.getItem('jodels'));
+        this.jodel = _.find(jodels, {'id': this.id});
+      }
+
       },
     submitComment: function() {
       this.$http.post('https://fehler40.uber.space/vuedel/comment/create', {parent: this.id, text: this.newComment}).then(response => {
