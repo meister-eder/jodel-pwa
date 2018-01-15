@@ -4,9 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import Router from './router/index.js'
 import VueResource from 'vue-resource'
+import Vuefire from 'vuefire'
+
+import firebase from './service/firebase'
 Vue.config.productionTip = false
 const router = Router;
 Vue.use(VueResource);
+Vue.use(Vuefire)
 
 
 /* eslint-disable no-new */

@@ -11,7 +11,10 @@
 </template>
 
 <script>
+
+import  {storage}  from '../service/firebase'
 export default {
+  
   mounted() {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: { exact: "environment" } } })
@@ -26,14 +29,22 @@ export default {
     const tracks = this.mediaStream.getTracks();
     tracks.map(track => track.stop());
   },
+  
   methods: {
     capture() {
       const mediaStreamTrack = this.mediaStream.getVideoTracks()[0];
       const imageCapture = new window.ImageCapture(mediaStreamTrack);
-      return imageCapture.takePhoto().then(blob => {
-        console.log(blob);
-      });
-    }
+       return imageCapture.takePhoto().then(blob => {
+          storage.ref().child(`images/picture-${new Date().getTime()}`).put(blob).then(res => { console.log(res) })
+          this.$router.go(-1
+          )
+        })
+      //TODO: FIX
+    //    Uncaught (in promise) TypeError: __WEBPACK_IMPORTED_MODULE_0__service_firebase__.a.ref is not a function
+    // at imageCapture.takePhoto.then.blob (CameraView.vue?44a1:38)
+    // at <anonymous>
+    
+     }
   }
 };
 </script>
