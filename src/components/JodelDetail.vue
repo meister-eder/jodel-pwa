@@ -38,6 +38,7 @@ export default {
   },
   mounted:function(){
     this.getJodel();
+  
   },
   methods: {
 

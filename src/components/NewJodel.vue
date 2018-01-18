@@ -7,27 +7,30 @@
     </header>
     <main :class="color">
       <textarea v-model="text" name="newjodel" rows="8" cols="80" maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
-
+      <camera v-if="this.picJodel" v-on:pictureTaken="savePic($event)"></camera>
     </main>
   <footer>
-    <div class="takephoto">
-      <router-link to="/camera">
+    <div class="takephoto" v-on:click="picJodel=true">
         <i class="material-icons">photo_camera</i>
-      </router-link>
     </div>
     </footer>
   </div>
 </template>
 
 <script>
+import Camera from './CameraView.vue'
+
 export default {
   name: 'newjodel',
   data() {
     return {
       color: this.randomColor(),
-      text: ""
+      text: "",
+      picJodel: false,
+      img: ''
     }
   },
+  components: { Camera },
   methods: {
 
     randomColor: function () {
@@ -36,8 +39,15 @@ export default {
       return colors[Math.floor(Math.random()*colors.length)];
     },
 
+    savePic(pic) {
+      console.log('pic: ', pic)
+      this.img = pic;
+      
+    },
+
     createJodel: function () {
-      this.$http.post('https://fehler40.uber.space/vuedel/jodel/create', {text: this.text, color: this.color}).then(response => {
+      console.log('create: ', this.img)
+      this.$http.post('https://fehler40.uber.space/vuedel/jodel/create', {text: this.text, color: this.color, img: this.img}).then(response => {
 
       console.log(response);
       let id = response.body.id;

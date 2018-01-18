@@ -7,6 +7,7 @@
               
             </span>
         </div>
+        <div @click="back">back</div>
     </div>
 </template>
 
@@ -14,6 +15,8 @@
 
 import  {storage}  from '../service/firebase'
 export default {
+  name: 'camera',
+
   
   mounted() {
     navigator.mediaDevices
@@ -28,25 +31,28 @@ export default {
   destroyed() {
     const tracks = this.mediaStream.getTracks();
     tracks.map(track => track.stop());
+    console.log('camera destroyed')
   },
   
   methods: {
+    back() {
+      this.$parent.$data.picJodel = false;
+    },
     capture() {
       const mediaStreamTrack = this.mediaStream.getVideoTracks()[0];
       const imageCapture = new window.ImageCapture(mediaStreamTrack);
-       return imageCapture.takePhoto().then(blob => {
-          storage.ref().child(`images/picture-${new Date().getTime()}`).put(blob).then(res => { console.log(res) })
-          this.$router.go(-1
-          )
+      imageCapture.takePhoto().then(blob => {
+          storage.ref().child(`images/picture-${new Date().getTime()}`).put(blob).then(res => {
+          console.log(res)
+          let downloadURL = res.downloadURL;
+          this.$emit('pictureTaken', downloadURL)
+          // window.localStorage.setItem("downloadUrl", downloadURL);
+          this.back();
         })
-      //TODO: FIX
-    //    Uncaught (in promise) TypeError: __WEBPACK_IMPORTED_MODULE_0__service_firebase__.a.ref is not a function
-    // at imageCapture.takePhoto.then.blob (CameraView.vue?44a1:38)
-    // at <anonymous>
     
-     }
-  }
-};
+     })
+    }
+}}
 </script>
 
 <style scoped lang="sass">
