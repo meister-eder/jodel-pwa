@@ -10,8 +10,8 @@
         <div class="jodel--body">
           <p>{{ jodel.text }}</p>
         <div class="jodel--backpic" v-if="!this.pressed"></div>
-            <div  class="jodel--pic" v-if="jodel.img && !this.pressed"  @touchstart.prevent="startPress" @touchend.prevent="stopPress" @touchcancel.prevent="stopPress">Gedrückt halten</div>
-          
+            <div  class="jodel--pic" v-if="jodel.img && !this.pressed"  @touchstart.prevent="startPress" @touchend.prevent="stopPress" @touchcancel.prevent="stopPress"><i class="material-icons">photo_camera</i> Gedrückt halten</div>
+
           <div class="jodel--bigpic" v-if="this.pressed"><img v-bind:src="this.jodel.img" /></div>
         </div>
       </div>
@@ -113,11 +113,11 @@ export default {
     .jodel--info
       span:first-child, span:last-child
         font-weight: 400
-        font-size: 12px
+        font-size: 8px
         opacity: .5
       span
         font-weight: 700
-        font-size: 14px
+        font-size: 10px
 
     .jodel--body
       p
@@ -127,13 +127,22 @@ export default {
         max-width: 60%
       .jodel--pic
         text-align: center
-        height: 150px
+        height: 60px
         width: 100%
         z-index: 2
         position: relative
       .jodel--bigpic
-        height: 800vh
+        position: fixed
+        height: 100vh
         width: 100vw
+        top: 0
+        left: 0
+        z-index: 10
+        background-color: #000
+        img
+          width: 100%
+          height: 100%
+          object-fit: contain
       .jodel--backpic
         position: relative
         overflow: hidden

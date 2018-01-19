@@ -11,7 +11,7 @@
     <p>{{ comment.text }}</p>
   </div>
 
-  <div class="jodel--vote">
+  <div class="comment--vote">
     <span :class="{ disabled: votedOn }" @click="vote(1)"><i class="material-icons">keyboard_arrow_up</i></span>
     <span>{{ comment.score }}</span>
     <span :class="{ disabled: votedOn }" @click="vote(-1)"><i class="material-icons">keyboard_arrow_down</i></span>
@@ -35,42 +35,42 @@ export default {
       votedOn: false
     }
   },
-  // methods:{
-  //   vote:function(vote){
-  //       if (!this.votedOn) {
-  //         this.$http.get('https://fehler40.uber.space/vuedel/vote/jodel?id='+ this.jodel.id + '&vote='+vote).then(response => {
-  //           this.jodel.score += vote;
-  //           this.votedOn = true;
-  //         });
-  //     }
-  //   }
-  // },
-  //  computed: {
-  //    timeAgo: function () {
-  //      let created = new Date(this.jodel.createdAt);
-  //      let now = new Date();
-  //
-  //      let diff = Math.floor((now - created)/1000);
-  //
-  //      switch (true) {
-  //        case diff < 60:
-  //          console.log('case seconds');
-  //          return diff + 's'
-  //          break;
-  //        case diff >= 60 && diff < 60*60:
-  //          return Math.floor(diff/60) + 'min'
-  //          break;
-  //        case diff >= 60*60 && diff < 60*60*24:
-  //          return Math.floor(diff/(60*60)) + 'h'
-  //          break;
-  //        case diff >= 60*60*24:
-  //          return Math.floor(diff/(60*60*24)) + ' Tage'
-  //          break;
-  //        default:
-  //          return 'irgendwann'
-  //      }
-  //    }
-  //  }
+  methods:{
+    vote:function(vote){
+        if (!this.votedOn) {
+          this.$http.get('https://fehler40.uber.space/vuedel/vote/comment?id='+ this.comment.id + '&vote='+vote).then(response => {
+            this.comment.score += vote;
+            this.votedOn = true;
+          });
+      }
+    }
+  },
+   computed: {
+     timeAgo: function () {
+       let created = new Date(this.comment.createdAt);
+       let now = new Date();
+
+       let diff = Math.floor((now - created)/1000);
+
+       switch (true) {
+         case diff < 60:
+           console.log('case seconds');
+           return diff + 's'
+           break;
+         case diff >= 60 && diff < 60*60:
+           return Math.floor(diff/60) + 'min'
+           break;
+         case diff >= 60*60 && diff < 60*60*24:
+           return Math.floor(diff/(60*60)) + 'h'
+           break;
+         case diff >= 60*60*24:
+           return Math.floor(diff/(60*60*24)) + ' Tage'
+           break;
+         default:
+           return 'irgendwann'
+       }
+     }
+   }
 }
 </script>
 
@@ -96,14 +96,14 @@ export default {
     div.comment--wrapper_left
       display: inline-block
       width: 85vw
-      .comment--info
-        span:first-child, span:last-child
-          font-weight: 400
-          font-size: 12px
-          opacity: .5
-        span
-          font-weight: 700
-          font-size: 14px
+    .comment--info
+      span:first-child, span:last-child
+        font-weight: 400
+        font-size: 8px
+        opacity: .5
+      span
+        font-weight: 700
+        font-size: 10px
 
       .comment--body
         p
@@ -111,7 +111,7 @@ export default {
           font-size: 16px
           word-break: break-word
 
-    div.jodel--vote
+    div.comment--vote
       float: right
       display: inline-block
       position: absolute

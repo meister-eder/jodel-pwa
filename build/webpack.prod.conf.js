@@ -113,6 +113,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         {
           urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
           handler: 'cacheFirst'
+        },
+        {
+          urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/vuedel-56616\.appspot\.com\//,
+          handler: 'cacheFirst'
         }
       ]
     })

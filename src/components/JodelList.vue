@@ -57,7 +57,7 @@ export default {
     saveJodelstoCache: function () {
       this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
         this.jodels = response.body;
-        
+
         this.recentJodels();
         this.jodels = this.countComments(this.jodels);
         localStorage.setItem('jodels', JSON.stringify(this.jodels));
@@ -107,7 +107,7 @@ export default {
 header
   display: flex
   position: fixed
-  z-index: 2
+  z-index: 5
   margin: 0
   height: 56px
   background-color: #fff
@@ -154,6 +154,7 @@ footer
   height: 56px
   background-color: #fff
   box-shadow: 3px 0px 5px 0px rgba(51,51,51,.50)
+  z-index: 5
   span
     display: inline-block
     flex: 1 1 auto
@@ -181,6 +182,7 @@ div.btn--new-jodel
   border: 6px solid #fff
   border-radius: 50%
   background-color: rgba(30,30,30,.50)
+  z-index: 5
   &:after
     content: ""
     position: relative
