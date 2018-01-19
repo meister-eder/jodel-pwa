@@ -27,7 +27,7 @@ import Jodel  from './Jodel.vue'
 import lodash from 'lodash'
 
 export default {
-  name: 'app',
+  name: 'jodellist',
   data() {
     return {
      jodels: [],

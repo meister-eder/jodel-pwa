@@ -7,9 +7,7 @@
     </header>
     <main>
       <jodel :jodel="jodel"></jodel>
-      <ul>
-        <li v-for="comment in jodel.comments">{{comment.text}}</li>
-      </ul>
+      <comment v-for="comment in jodel.comments" :key="comment.id" :comment="comment"></comment>
     </main>
     <footer>
       <div class="newcomment">
@@ -23,11 +21,13 @@
 
 <script>
 import Jodel  from './Jodel.vue'
+import Comment from './Comment.vue'
 
 export default {
   name: 'detail',
   components: {
-    Jodel
+    'jodel': Jodel,
+    'comment': Comment
   },
   data() {
     return {

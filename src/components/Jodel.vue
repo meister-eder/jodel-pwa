@@ -19,7 +19,7 @@
     </div>
     <div class="jodel--footer">
       <span>
-        <span v-if="jodel.comments.length > 0">&#x2709; {{ jodel.comments.length }}</span>
+        <span v-if="jodel.comments.length > 0"><i class="material-icons">comment</i> {{ jodel.comments.length }}</span>
       </span>
       <span>...</span>
       <span></span>
