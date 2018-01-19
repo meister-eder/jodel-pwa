@@ -57,6 +57,7 @@ export default {
     saveJodelstoCache: function () {
       this.$http.get('https://fehler40.uber.space/vuedel/jodel/').then(response => {
         this.jodels = response.body;
+        
         this.recentJodels();
         this.jodels = this.countComments(this.jodels);
         localStorage.setItem('jodels', JSON.stringify(this.jodels));

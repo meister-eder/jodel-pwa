@@ -24,6 +24,7 @@ export default {
 
 body
   margin: 0
+  max-width: 100vw
 
 #app
   font-family: 'Montserrat', Helvetica, Arial, sans-serif
