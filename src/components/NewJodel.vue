@@ -6,7 +6,8 @@
       <span @click="createJodel()">Senden</span>
     </header>
     <main :class="color">
-      <textarea v-model="text" name="newjodel" rows="8" cols="80" maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
+      <textarea v-if="!this.taken" v-model="text" name="newjodel" rows="8" cols="80"  maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
+      <img v-if="this.taken" v-bind:src="img"/>
       <camera v-if="this.picJodel" v-on:pictureTaken="savePic($event)"></camera>
     </main>
   <footer>
@@ -27,7 +28,8 @@ export default {
       color: this.randomColor(),
       text: "",
       picJodel: false,
-      img: ''
+      img: '',
+      taken: false
     }
   },
   components: { Camera },
@@ -42,7 +44,8 @@ export default {
     savePic(pic) {
       console.log('pic: ', pic)
       this.img = pic;
-      
+
+      this.taken = true
     },
 
     createJodel: function () {
