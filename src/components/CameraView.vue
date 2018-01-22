@@ -3,11 +3,18 @@
     <div class="camera-modal">
         <video ref="video" class="camera-stream"/>
         <div class="camera-modal-container">
+          <div class="camera-torch">
+             <i class="material-icons">flash_on</i>
+          </div>
+          <div class="camera-switch" @click="switchCam">
+             <i class="material-icons">switch_camera</i>
+          </div>
             <span @click="capture" >
               
             </span>
+             <div class="camera-quit" @click="back">Abbrechen</div>
         </div>
-        <div @click="back">back</div>
+       
     </div>
 </template>
 
@@ -20,11 +27,34 @@ export default {
   
   mounted() {
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: { exact: "environment" } } })
+      .getUserMedia({ video: { facingMode: [ 'environment'] } })
       .then(mediaStream => {
         this.mediaStream = mediaStream;
         this.$refs.video.srcObject = mediaStream;
         this.$refs.video.play();
+        const usermedia = mediaStream.getUserMedia;
+      const track = mediaStream.getVideoTracks()[0];
+
+      //Create image capture object and get camera capabilities
+      const imageCapture = new ImageCapture(track)
+      const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+
+        //todo: check if camera has a torch
+
+        //let there be light!
+        const btn = document.querySelector('.camera-torch');
+        btn.addEventListener('click', function(){
+          track.applyConstraints({
+            advanced: [{torch: true}]
+          });
+          const bswitchbtn = document.querySelector('.camera-switch');
+        bswitchbtn.addEventListener('click', function(){
+          track.applyConstraints({
+            video: [{facingMode: 'user'}]
+          });
+        });
+      })
+      })
       })
       .catch(error => console.error("getUserMedia() error:", error));
   },
@@ -35,6 +65,12 @@ export default {
   },
   
   methods: {
+    switchCam(){
+
+    },
+    enableTorch(){
+
+    },
     back() {
       this.$parent.$data.picJodel = false;
     },
@@ -46,7 +82,6 @@ export default {
           console.log(res)
           let downloadURL = res.downloadURL;
           this.$emit('pictureTaken', downloadURL)
-          // window.localStorage.setItem("downloadUrl", downloadURL);
           this.back();
         })
     
@@ -59,7 +94,7 @@ export default {
 @import '../assets/sass/_variables.sass'
 .camera-modal 
   width: 100%
-  height: 100%
+  height: 100vh
   top: 0
   left: 0
   position: absolute
@@ -73,11 +108,28 @@ export default {
   .camera-modal-container
     position: absolute
     bottom: 0
-    width: 100%
-    text-align: center
+    width: 100%    
     margin-bottom: 24px
 
-    
+    .camera-quit 
+      margin: 0 auto
+      position: fixed
+      bottom: 100px
+      left: 20px
+      color: white
+      font-weight: bold
+    .camera-torch
+      margin: 0 auto
+      position: fixed
+      top: 30px
+      left: 20px
+      color: white
+    .camera-switch
+      margin: 0 auto
+      position: fixed
+      top: 30px
+      right: 20px
+      color: white
   span
     margin: 0 auto
     width: 80px
