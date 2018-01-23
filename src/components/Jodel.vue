@@ -7,7 +7,7 @@
           <span> ∙ Main Feed ∙ </span>
           <span>{{ timeAgo }}</span>
         </div>
-        <div class="jodel--body">
+        <div class="jodel--body"  @touchstart.prevent>
           <p>{{ jodel.text }}</p>
         <div class="jodel--backpic" v-if="!this.pressed"></div>
             <div  class="jodel--pic" v-if="jodel.img && !this.pressed"  @touchstart.prevent="startPress" @touchend.prevent="stopPress" @touchcancel.prevent="stopPress"><i class="material-icons">photo_camera</i> Gedrückt halten</div>

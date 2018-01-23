@@ -6,12 +6,12 @@
       <span @click="createJodel()">Senden</span>
     </header>
     <main :class="color">
-      <textarea v-if="!this.taken" v-model="text" name="newjodel" rows="8" cols="80"  maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
+      <textarea v-if="!this.taken" @keyup="setJodeltype" v-model="text" name="newjodel" rows="8" cols="80"  maxlength="240" placeholder="Teile hier deine Gedanken und Erlebnisse mit den Studenten in deiner Umgebung!"></textarea>
       <img v-if="this.taken" v-bind:src="img"/>
       <camera v-if="this.picJodel" v-on:pictureTaken="savePic($event)"></camera>
     </main>
   <footer>
-    <div class="takephoto" v-on:click="picJodel=true">
+    <div v-if="!this.textJodel" class="takephoto" v-on:click="picJodel=true">
         <i class="material-icons">photo_camera</i>
     </div>
     </footer>
@@ -29,8 +29,12 @@ export default {
       text: "",
       picJodel: false,
       img: '',
-      taken: false
+      taken: false,
+      textJodel: false
     }
+  },
+  mounted(){
+    this.textJodel = false
   },
   components: { Camera },
   methods: {
@@ -40,7 +44,9 @@ export default {
 
       return colors[Math.floor(Math.random()*colors.length)];
     },
-
+    setJodeltype(){
+        this.textJodel = true
+    },
     savePic(pic) {
       console.log('pic: ', pic)
       this.img = pic;
@@ -104,6 +110,9 @@ header
 main
   height: 100%
   padding-top: 56px
+
+  img 
+    width: 100%
 
   textarea
     width: calc(100% - 40px)
