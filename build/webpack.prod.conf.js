@@ -118,7 +118,8 @@ const webpackConfig = merge(baseWebpackConfig, {
           urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/vuedel-56616\.appspot\.com\//,
           handler: 'cacheFirst'
         }
-      ]
+      ],
+      importScripts: ['./sw-custom-script.js']
     })
   ]
 })
