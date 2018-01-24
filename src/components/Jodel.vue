@@ -1,37 +1,38 @@
 <template>
-  <div class="jodel"  :class="jodel.color" >
-    <router-link :to="{ name: 'jodel', params: {id: jodel.id} }">
-      <div class="jodel--wrapper_left">
-        <div class="jodel--info">
-          <span>{{ jodel.location }}</span>
-          <span> ∙ Main Feed ∙ </span>
-          <span>{{ timeAgo }}</span>
-        </div>
-        <div class="jodel--body"  @touchstart.prevent>
-          <p>{{ jodel.text }}</p>
-        <div class="jodel--backpic" v-if="!this.pressed"></div>
-            <div  class="jodel--pic" v-if="jodel.img && !this.pressed"  @touchstart.prevent="startPress" @touchend.prevent="stopPress" @touchcancel.prevent="stopPress">Gedrückt halten</div>
-
-          <div class="jodel--bigpic" v-if="this.pressed"><img v-bind:src="this.jodel.img" /></div>
-        </div>
+<div class="jodel" :class="jodel.color">
+  <router-link :to="{ name: 'jodel', params: {id: jodel.id} }">
+    <div class="jodel--wrapper_left">
+      <div class="jodel--info">
+        <span>{{ jodel.location }}</span>
+        <span> ∙ Main Feed ∙ </span>
+        <span>{{ timeAgo }}</span>
       </div>
-    </router-link>
-    <div class="jodel--vote">
-      <span :class="{ disabled: votedOn }" @click="vote(1)"><i class="material-icons">keyboard_arrow_up</i></span>
-      <span>{{ jodel.score }}</span>
-      <span :class="{ disabled: votedOn }" @click="vote(-1)"><i class="material-icons">keyboard_arrow_down</i></span>
+      <div class="jodel--body">
+        <p>{{ jodel.text }}</p>
+        <div class="jodel--pic" v-if="jodel.img && !this.pressed" @touchstart.prevent="startPress" @touchend.prevent="stopPress">Gedrückt halten</div>
+
+        <div class="jodel--bigpic" v-show="this.pressed"><img v-bind:src="this.jodel.img" /></div>
+      </div>
     </div>
-    <div class="jodel--footer">
-      <span>
-        <span v-if="jodel.comments.length > 0"><i class="material-icons">comment</i> {{ jodel.comments.length }}</span>
-      </span>
-      <span>...</span>
-      <span></span>
-    </div>
+  </router-link>
+  <div class="jodel--vote">
+    <span :class="{ disabled: votedOn }" @click="vote(1)"><i class="material-icons">keyboard_arrow_up</i></span>
+    <span>{{ jodel.score }}</span>
+    <span :class="{ disabled: votedOn }" @click="vote(-1)"><i class="material-icons">keyboard_arrow_down</i></span>
   </div>
+  <div class="jodel--footer">
+    <span>
+        <span v-if="jodel.comments.length > 0"><i class="material-icons">comment</i> {{ jodel.comments.length }}</span>
+    </span>
+    <span @click="deleteJodel(jodel.id)">...</span>
+    <span></span>
+  </div>
+</div>
 </template>
 
 <script>
+import lodash from 'lodash'
+
 export default {
   name: "jodel",
   props: ["jodel"],
@@ -47,9 +48,9 @@ export default {
         this.$http
           .get(
             "https://fehler40.uber.space/vuedel/vote/jodel?id=" +
-              this.jodel.id +
-              "&vote=" +
-              vote
+            this.jodel.id +
+            "&vote=" +
+            vote
           )
           .then(response => {
             this.jodel.score += vote;
@@ -57,8 +58,22 @@ export default {
           });
       }
     },
+    deleteJodel: function (id) {
+      this.$http.get('https://fehler40.uber.space/vuedel/jodel/destroy?id='+id).then(response => {
+        console.log('jodel deleted');
+        //refreshes the page
+        this.$router.go();
+      }, response => {
+      // error callback
+            console.log("http error")
+         });
+
+    },
     startPress() {
-      this.pressed = true;
+      console.log('pressed: ', this.pressed);
+      let that = this;
+
+        this.pressed = true;
     },
     stopPress() {
       this.pressed = false;
