@@ -26,6 +26,10 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+
+    <!-- testing user agent dependent stylesheets -->
+    <link rel="stylesheet" href="/static/css/style_ios.css">
+
   </head>
   <body>
     <noscript>

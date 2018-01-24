@@ -16,14 +16,3 @@ self.addEventListener('install', function(e) {
    })
  );
 });
-
-
-self.addEventListener('fetch', event => {
-  let userAgent = navigator.userAgent;
-  console.log(userAgent);
-  if (event.request.url.endsWith('/bar.css')) {
-    event.respondWith(
-      fetch('https://static.example.com/bar/style.css')
-    );
-  }
-});
