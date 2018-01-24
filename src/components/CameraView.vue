@@ -68,14 +68,11 @@ export default {
       const mediaStreamTrack = this.mediaStream.getVideoTracks()[0];
       const imageCapture = new window.ImageCapture(mediaStreamTrack);
       imageCapture.takePhoto().then(blob => {
-          storage.ref().child(`images/picture-${new Date().getTime()}`).put(blob).then(res => {
-          console.log(res)
-          let downloadURL = res.downloadURL;
-          this.$emit('pictureTaken', downloadURL)
-          this.back();
-        })
-    
+          
+     this.$emit('pictureTaken', blob)  
+     this.back();
      })
+     
     }
 }}
 </script>

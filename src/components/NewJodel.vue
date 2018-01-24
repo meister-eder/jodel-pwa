@@ -10,7 +10,7 @@
       <img v-if="this.taken" v-bind:src="img"/>
       <camera v-if="this.picJodel" v-on:pictureTaken="savePic($event)"></camera>
     </main>
-  <footer>
+  <footer v-if="!this.taken">
     <div v-if="!this.textJodel" class="takephoto" v-on:click="picJodel=true">
         <i class="material-icons">photo_camera</i>
     </div>
@@ -20,7 +20,7 @@
 
 <script>
 import Camera from './CameraView.vue'
-
+import  {storage}  from '../service/firebase'
 export default {
   name: 'newjodel',
   data() {
@@ -49,9 +49,13 @@ export default {
     },
     savePic(pic) {
       console.log('pic: ', pic)
-      this.img = pic;
+      
+      storage.ref().child(`images/picture-${new Date().getTime()}`).put(pic).then(res => {
+          console.log(res)
+          this.img  = res.downloadURL;          
+          this.taken = true    
+        })
 
-      this.taken = true
     },
 
     createJodel: function () {
