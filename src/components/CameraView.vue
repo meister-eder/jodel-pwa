@@ -3,10 +3,10 @@
     <div class="camera-modal">
         <video ref="video" class="camera-stream"/>
         <div class="camera-modal-container">
-          <div class="camera-torch">
+          <div class="camera-torch" @click="enableTorch">
              <i class="material-icons">flash_on</i>
           </div>
-          <div class="camera-switch" @click="switchCam">
+          <div class="camera-switch" >
              <i class="material-icons">switch_camera</i>
           </div>
             <span @click="capture" >
@@ -23,41 +23,16 @@
 import  {storage}  from '../service/firebase'
 export default {
   name: 'camera',
-
-  
+  data(){
+    return{
+    mediaStream: null,
+    track: null, 
+    torchOn: false
+    }
+  },  
   mounted() {
-    navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: [ 'environment'] } })
-      .then(mediaStream => {
-        this.mediaStream = mediaStream;
-        this.$refs.video.srcObject = mediaStream;
-        this.$refs.video.play();
-        const usermedia = mediaStream.getUserMedia;
-      const track = mediaStream.getVideoTracks()[0];
-
-      //Create image capture object and get camera capabilities
-      const imageCapture = new ImageCapture(track)
-      const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
-
-        //todo: check if camera has a torch
-
-        //let there be light!
-        const btn = document.querySelector('.camera-torch');
-        btn.addEventListener('click', function(){
-          track.applyConstraints({
-            advanced: [{torch: true}]
-          });
-          const bswitchbtn = document.querySelector('.camera-switch');
-        bswitchbtn.addEventListener('click', function(){
-          track.applyConstraints({
-            video: [{facingMode: 'user'}]
-          });
-        });
-      })
-      })
-      })
-      .catch(error => console.error("getUserMedia() error:", error));
-  },
+    this.openCam();
+    },
   destroyed() {
     const tracks = this.mediaStream.getTracks();
     tracks.map(track => track.stop());
@@ -65,11 +40,26 @@ export default {
   },
   
   methods: {
-    switchCam(){
-
+    openCam(){
+      let that = this
+      navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: [ 'environment'] } })
+      .then(mediaStream => {
+        that.mediaStream = mediaStream;
+        this.$refs.video.srcObject = mediaStream;
+        this.$refs.video.play();
+        that.track = that.mediaStream.getVideoTracks()[0];      
+      })
+      .catch(error => console.error("getUserMedia() error:", error));
+  
     },
     enableTorch(){
-
+      this.torchOn = !this.torchOn
+      console.log('licht an? ',this.torchOn)
+       //let there be light!
+            this.track.applyConstraints({
+            advanced: [{torch: this.torchOn}]
+          });
     },
     back() {
       this.$parent.$data.picJodel = false;
